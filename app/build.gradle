@@ -1,0 +1,87 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.ycengine.post"
+        minSdkVersion 19
+        /**
+         * YCNOTE - 마시멜로우 : targetSdkVersion
+         *
+         * 지금 마시멜로우 폰에서 플레이스토어에 있는 내 앱을 설치하면 오류가 발생할까요?
+         * 그렇지 않습니다.
+         * 안드로이드에서 targetSdkVersion 이 23버전보다 아래라면 앱이 설치되면 모든 권한이 허용되어있는 상태에서 시작합니다.
+         * 아직 마음의 준비가 안되셨다면 targetSdkVersion 을 22로 두고 개발하세요.
+         * 단, 이미 targetSdkVersion 을 23으로 올리셨다면 22로 내릴수 없습니다.
+         * 하지만 위에서 언급한것처럼 사용자가 직접 설정페이지에서 해당 권한을 거부할 수도 있습니다.
+         * 사용자가 수동으로 설정페이지에서 권한을 없애버리면 내 앱은 오류가 발생할까요?
+         * 앱이 오류가 발생해서 죽지는 않습니다. 해당 권한을 사용하는 기능을 사용하지 못할뿐입니다.
+         * 현재 배포되어있는 앱은 오류를 방지하기위한 최소한의 장치로 생각하고 우리는 최대한 빨리 마시멜로우 권한획득에 관한 대응을 해놓아야 합니다.
+         */
+        targetSdkVersion 28
+        versionCode 1
+        versionName "0.0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            /**
+             * YCNOTE - 프로가드(proguard)
+             *
+             * 하드코딩한 string type 의 요소들은 난독화 되지 않는다.
+             * 그러니 코드를 작성할 때 string 을 하드코딩하지않고 따로 상수 클래스에 모아서 사용하는 것을 추천한다.
+             *
+             * minifyEnabled - true = proguard 적용, false = proguard 미 적용
+             * proguard-android.txt 는 android SDK 폴더의 tools/proguard/proguard-android.txt 에서 수정 할 수 있다.
+             * 추가로 규칙을 정의해 별도로 *-rules.pro 파일을 아래와 같이 적용시켜 주면 기본설정을 변경하지 않고 추가 설정을 할 수 있다
+             */
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFiles 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java/']
+        }
+        test {
+            java.srcDirs = ['src/test/java/']
+        }
+        androidTest {
+            java.srcDirs = ['src/androidTest/java/']
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "POST-${variant.name}-${variant.versionName}.apk"
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    dexOptions {
+        // dex 의 크기를 늘리기 위한 설정(2^16개 초과)
+        jumboMode true
+        // 앱 구동 시 자바 할당 힙을 지정
+        javaMaxHeapSize "4g"
+    }
+}
+
+dependencies {
+    /* Base */
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    /* Test */
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
