@@ -33,6 +33,10 @@
 	-->
     <!-- ################################ [ common ] -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- ################################ [ 네트워크 상태 정보 조회 ] -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- ################################ [ 전화기 상태 정보(통화중 상태,전화번호,기기 식별자,일련번호 ) 조회 ] -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!-- ################################ [ 외부 저장소(SD CARD) 읽기 ] -->
     <!--
             4.4 이전버전에서는 파일을 읽어오려면 READ_EXTERNAL_STORAGE 권한이 꼭 필요 했었습니다.

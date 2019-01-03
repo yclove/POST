@@ -4,14 +4,18 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.View
 import com.ycengine.post.R
+import com.ycengine.post.common.Constants
 import com.ycengine.post.common.base.BaseActivity
 import com.ycengine.post.databinding.ActivitySplashBinding
+import com.ycengine.post.widget.PostDialog
 
-class SplashActivity : BaseActivity() {
+class SplashActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var binding: ActivitySplashBinding
     private lateinit var viewModel: SplashViewModel
+    private var mPostDialog: PostDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +27,29 @@ class SplashActivity : BaseActivity() {
 
         viewModel.appVersionData.observe(this, Observer {
             it?.let { appVersionData ->
-                binding.tvAppVersion.text = appVersionData.RESPONSE.APP_VERNM
+                binding.tvAppVersion.text = appVersionData.APP_VERNM
             }
         })
+
+        viewModel.exceptionCode.observe(this, Observer {
+            it?.let { exceptionCode ->
+                PostDialog(
+                    this@SplashActivity,
+                    Constants.DIALOG_TYPE_CONFIRM,
+                    this@SplashActivity,
+                    getString(R.string.dialog_confirm_delete)
+                ).show()
+            }
+        })
+    }
+
+    override fun onClick(v: View?) {
+        v?.let {
+            when (v.getId()) {
+                // 삭제 onClick
+                R.id.rlNoticeLayoutCloseBtn -> {
+                }
+            }
+        }
     }
 }
