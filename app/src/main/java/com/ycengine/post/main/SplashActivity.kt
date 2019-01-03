@@ -1,35 +1,30 @@
 package com.ycengine.post.main
 
-import android.content.Intent
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.os.Handler
-import android.support.v7.app.AppCompatActivity
+import com.ycengine.post.R
+import com.ycengine.post.common.base.BaseActivity
+import com.ycengine.post.databinding.ActivitySplashBinding
 
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : BaseActivity() {
 
-    companion object {
-        private const val SPLASH_DELAY: Long = 3000
-    }
-
-    private var mDelayHandler: Handler? = null
-
-    private val mRunnable: Runnable = Runnable {
-        if (!isFinishing) {
-            val intent = Intent(applicationContext, PostActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-    }
+    private lateinit var binding: ActivitySplashBinding
+    private lateinit var viewModel: SplashViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
 
-        mDelayHandler = Handler()
-        mDelayHandler?.postDelayed(mRunnable, SPLASH_DELAY)
-    }
+        viewModel = ViewModelProviders
+            .of(this)
+            .get(SplashViewModel::class.java)
 
-    public override fun onDestroy() {
-        mDelayHandler?.removeCallbacks(mRunnable)
-        super.onDestroy()
+        viewModel.appVersionData.observe(this, Observer {
+            it?.let { appVersionData ->
+                binding.tvAppVersion.text = appVersionData.RESPONSE.APP_VERNM
+            }
+        })
     }
 }

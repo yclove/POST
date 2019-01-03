@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- YCNOTE : manifest
+<?xml version="1.0" encoding="utf-8"?><!-- YCNOTE : manifest
 	* 매니패스트 파일은 어플리케이션에 대한 전반적인 정보를 담고 있는 파일로, 어플리케이션이 실행되기 전에 시스템이 알고 있어야 하는 파일이다.
 	* 이 매니페스트 파일 안에는 어플리케이션 컴포넌트(Activity, Service, intents, Content provider, Broadcast Receivers)에 대한 노드를 포함하고 있고
 	* Intent filter 와 같이 permissions 을 사용해 다른 컴포넌트와 어플리케이션이 어떻게 상호 작용을 하는지를 결정한다.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="com.ycengine.post">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.ycengine.post">
 
     <!-- YCNOTE : supports-screens
         * 애플리케이션이 지원하는 스크린 크기를 지정하는 옵션이다.(멀티해상도 관련)
@@ -16,12 +15,12 @@
         * android:anyDensity			: 애플리케이션이 임의의 스크린 밀도를 수용할 수 있는 지에 대한 옵션이다. API 레벨 4이상에서는 디폴트 값이 "true"이고 다른 레벨에서는 "false"이다.
     -->
     <supports-screens
-            android:anyDensity="true"
-            android:largeScreens="true"
-            android:normalScreens="true"
-            android:resizeable="true"
-            android:smallScreens="true"
-            android:xlargeScreens="true"/>
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
 
     <!-- YCNOTE : permission
 		* uses-permission					: 어플리케이션의 필요한 기능의 권한을 정의해준다. 여기에 정의된 권한은 설치 과정 중 사용자에게 보여주고 권한부여 혹은 거절이 결정된다.
@@ -33,7 +32,7 @@
 													- android:name			: 애플리케이션이 필요로 하는 기능의 이름으로써 예로 "android.hardware.camera"와 같이 쓰이는데 이것은 애플리케이션이 카메라를 필요로 한다는 의미이다.
 	-->
     <!-- ################################ [ common ] -->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- ################################ [ 외부 저장소(SD CARD) 읽기 ] -->
     <!--
             4.4 이전버전에서는 파일을 읽어오려면 READ_EXTERNAL_STORAGE 권한이 꼭 필요 했었습니다.
@@ -42,7 +41,7 @@
             uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
     -->
     <!-- ################################ [ 외부 저장소(SD CARD) 쓰기 ] -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- YCNOTE : application
 		* hardwareAccelerated			: 해당 Activity 에 hardware-accelerated OpenGL rendering 을 적용할 것인지 확인(default : false)
@@ -52,14 +51,14 @@
 												    : 디폴트는 액티비티가 인텐트 필터를 포함하는지에 달려있다. 필터가 없다면 디폴트 값이 "false"이고 필터가 있다면 "true"이다.
 	-->
     <application
-            android:name=".PostApplication"
-            android:allowBackup="true"
-            android:hardwareAccelerated="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
-            android:largeHeap="true"
-            tools:replace="android:icon,android:theme"
-            android:theme="@style/AppTheme">
+        android:name=".PostApplication"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme">
 
         <!-- YCNOTE : Meta-data
 			* 데이터에 대한 정의나 설명이다. 컴포넌트 엘리먼트는 <meta-data> 서브엘리먼트를 포함할 수 있다. <meta-data>의 모든 값은 하나의 Bundle 로 모아지고 PackageItemInfo.metaData 필드로써 컴포넌트에서 사용할 수 있다.
@@ -105,22 +104,22 @@
                                                                 - adjustPan				: 소프트 키보드 공간을 만들기 위해 메인 윈도우 크기가 재조정 되지 않음. 포커스를 받은 뷰가 보이게 할려면, 스크롤 하여 이동하여야 합니다. 입력받는 뷰는 보이지만, 다른 뷰들이 가려지는 현상이 있습니다. 다른 뷰들이 보이려면, back 키로 키보드를 닫아야 합니다.
         -->
         <activity
-                android:name=".main.SplashActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/SplashTheme">
+            android:name=".main.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
 
         <activity
-                android:name=".main.PostActivity"
-                android:screenOrientation="portrait"
-                android:theme="@style/AppTheme"/>
+            android:name=".main.PostActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
     </application>
 
