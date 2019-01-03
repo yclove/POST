@@ -98,6 +98,7 @@ android {
 dependencies {
     final support_library_version = '28.0.0'
     final retrofit_version = '2.5.0'
+    final jackson_version = '2.9.8'
     final glide_version = '4.8.0'
     final architecture_components_version = '1.1.1'
 
@@ -121,8 +122,11 @@ dependencies {
     // Retrofit2 : https://github.com/square/retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
+    // Jackson : https://github.com/FasterXML/jackson-module-kotlin & jackson-databind
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
+    implementation "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     // Glide : https://github.com/bumptech/glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"

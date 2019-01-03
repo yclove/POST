@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.jackson.JacksonConverterFactory
 
 object PostApiRepository {
 
@@ -23,7 +23,7 @@ object PostApiRepository {
     val service: PostApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BuildConfig.SERVER_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create(objectMapper))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .client(client)
             .build()
