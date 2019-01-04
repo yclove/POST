@@ -38,10 +38,10 @@
 # -keep class com.test.** {
 #    public *;
 #} // com.test 하위 클래스 중 public 메소드만 난독화하지 않음
--keep class com.ycengine.post.protocol.data.** { *; }
+#-keep class com.ycengine.post.data.dto.** { *; }
 
 # Inner 클래스를 사용하는 경우 몇몇 변수가 난독화가 되는 일이 일어나기도 한다고 합니다. 이런 경우에는 다음과 같이 Inner 클래스도 난독화에서 제외하는 코드를 추가해줍니다.
--keepclassmembers class com.ycengine.post.protocol.data** { *; }
+#-keepclassmembers class com.ycengine.post.data.dto.** { *; }
 
 # warning 뜨는거 무시할때
 # -ignorewarnings

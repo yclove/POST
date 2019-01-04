@@ -18,8 +18,8 @@ class PostApplication : MultiDexApplication() {
     }
 
     private fun configLogger() {
-        if (BuildConfig.DEBUG) {
+//        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        }
+//        }
     }
 }

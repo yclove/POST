@@ -31,8 +31,8 @@ android {
          * implementation 'com.android.support:multidex:1.0.3'
          */
         multiDexEnabled true
-        versionCode 45
-        versionName "0.4.5"
+        versionCode 46
+        versionName "0.4.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -56,6 +56,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt')
             proguardFiles 'proguard-rules.pro'
             proguardFiles 'retrofit2.pro'
+            proguardFiles 'jackson.pro'
             proguardFiles 'glide.pro'
             proguardFiles 'okhttp.pro'
         }
