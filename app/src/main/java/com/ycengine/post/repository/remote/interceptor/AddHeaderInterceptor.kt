@@ -1,5 +1,6 @@
 package com.ycengine.post.repository.remote.interceptor
 
+import com.ycengine.post.BuildConfig
 import com.ycengine.post.common.Constants
 import com.ycengine.post.util.KeyUtil
 import okhttp3.Interceptor
@@ -20,7 +21,9 @@ class AddHeaderInterceptor : Interceptor {
         builder.addHeader("device-os-version", android.os.Build.VERSION.RELEASE)
         builder.addHeader("device-model", android.os.Build.MODEL)
         builder.addHeader("device-type", Constants.HEADER_DEVICE_TYPE)
-        builder.addHeader("post-app-version", Constants.APP_VERSION_CODE.toString())
+        // TODO : YCLOVE
+        builder.addHeader("post-app-version", BuildConfig.VERSION_CODE.toString())
+//        builder.addHeader("post-app-version", "4")
         builder.addHeader("post-app-user-id", "yclove")//SPUtil.getSharedPreference(mContext, Constants.SP_USER_ID)
         builder.addHeader("post-access-token", tokenKey)
         builder.addHeader("post-access-key", Constants.POST_ACCESS_KEY)

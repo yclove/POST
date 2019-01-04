@@ -4,8 +4,6 @@ import com.ycengine.post.BuildConfig
 
 object Constants {
 
-    var APP_VERSION_CODE = 44
-    var APP_VERSION_NAME = "0.4.4"
     var STAMP_COUNT = 0
     var RIGHT_COUNT = 0
 

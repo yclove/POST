@@ -1,30 +1,40 @@
 package com.ycengine.post.main
 
-import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.ycengine.post.data.dto.PostData
-import com.ycengine.post.repository.remote.PostApiRepository
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import timber.log.Timber
+import com.ycengine.post.repository.remote.RemoteEndModelRepository
+import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
-class PostViewModel : ViewModel(), Callback<PostData> {
-    private var postData: MutableLiveData<PostData> = MutableLiveData()
+class PostViewModel : ViewModel() {
+
+    private val repository = RemoteEndModelRepository()
+
+    val postData: MutableLiveData<PostData> = MutableLiveData()
+    val exceptionMessage: MutableLiveData<String> = MutableLiveData()
+
+    private val compositeDisposable = CompositeDisposable()
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
+    }
 
     init {
-        PostApiRepository.service.getPostData().enqueue(this)
-        postData.value = PostData()
+        val disposable = Flowable.just(Any())
+            .subscribeOn(Schedulers.io())
+            .map {
+                repository.getPost()
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe ({
+                postData.value = it
+            }, {
+                exceptionMessage.value = it.message
+            })
+        compositeDisposable.add(disposable)
     }
-
-    override fun onFailure(call: Call<PostData>?, t: Throwable?) {
-        Timber.e(t.toString())
-    }
-
-    override fun onResponse(call: Call<PostData>?, response: Response<PostData>) {
-        postData.value = response.body()?.run { PostData() }
-    }
-
-    fun getEventModel(): LiveData<PostData> = postData
 }

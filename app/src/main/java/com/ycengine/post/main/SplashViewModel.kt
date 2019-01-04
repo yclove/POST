@@ -2,38 +2,39 @@ package com.ycengine.post.main
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.ycengine.post.R
-import com.ycengine.post.common.Constants
 import com.ycengine.post.data.dto.AppVersionData
-import com.ycengine.post.repository.remote.PostApiRepository
-import com.ycengine.post.repository.remote.ValidResponse
-import com.ycengine.post.widget.PostDialog
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import timber.log.Timber
+import com.ycengine.post.repository.remote.RemoteEndModelRepository
+import io.reactivex.Flowable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 
 class SplashViewModel : ViewModel() {
-    val appVersionData: MutableLiveData<AppVersionData.Response> = MutableLiveData()
-    val exceptionCode: MutableLiveData<String> = MutableLiveData()
+
+    private val repository = RemoteEndModelRepository()
+
+    val appVersionData: MutableLiveData<AppVersionData> = MutableLiveData()
     val exceptionMessage: MutableLiveData<String> = MutableLiveData()
 
-    init {
-        PostApiRepository.service.getAppVersionData().enqueue(object : Callback<AppVersionData> {
-            override fun onFailure(call: Call<AppVersionData>?, t: Throwable?) {
-                Timber.e(t.toString())
-            }
+    private val compositeDisposable = CompositeDisposable()
 
-            override fun onResponse(call: Call<AppVersionData>?, response: Response<AppVersionData>) {
-                response.body()?.let {
-                    if (ValidResponse.validResponse(it.CODE)) {
-                        appVersionData.value = it.RESPONSE
-                    } else {
-                        exceptionCode.value = it.CODE
-                        exceptionMessage.value = it.MESSAGE
-                    }
-                }
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.clear()
+    }
+
+    init {
+        val disposable = Flowable.just(Any())
+            .subscribeOn(Schedulers.io())
+            .map {
+                repository.getAppVersion()
             }
-        })
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe ({
+                appVersionData.value = it
+            }, {
+                exceptionMessage.value = it.message
+            })
+        compositeDisposable.add(disposable)
     }
 }
