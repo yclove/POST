@@ -10,13 +10,13 @@ data class AppVersionData(
     val COUNTRY_CODE: String = "",
     val POST_INTRO_BG: String = "",
     @JsonProperty("COLOR")
-    val arrColorItem: List<ColorItem>? = null,
+    val arrColorItem: ArrayList<ColorItem>? = null,
     @JsonProperty("HASH_POP_KEYWORD")
-    val arrPostHashTagKeyWordItem: List<PostHashTagKeyWordItem>? = null,
+    val arrPostHashTagKeyWordItem: ArrayList<PostHashTagKeyWordItem>? = null,
     @JsonProperty("POST_POP_KEYWORD")
-    val arrPostPopKeyWordItem: List<MusPopKeyWordItem>? = null,
+    val arrPostPopKeyWordItem: ArrayList<MusPopKeyWordItem>? = null,
     @JsonProperty("MUS_POP_KEYWORD")
-    val arrMusPopKeyWordItem: List<MusPopKeyWordItem>? = null,
+    val arrMusPopKeyWordItem: ArrayList<MusPopKeyWordItem>? = null,
     @JsonProperty("NOTI_SETTING")
-    val arrNotiSettingItem: List<NotiSettingItem>? = null
+    val arrNotiSettingItem: ArrayList<NotiSettingItem>? = null
 )

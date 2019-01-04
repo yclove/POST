@@ -23,7 +23,9 @@ class SplashViewModel : ViewModel() {
         compositeDisposable.clear()
     }
 
-    init {
+    init {}
+
+    fun getAppVersionData() {
         val disposable = Flowable.just(Any())
             .subscribeOn(Schedulers.io())
             .map {

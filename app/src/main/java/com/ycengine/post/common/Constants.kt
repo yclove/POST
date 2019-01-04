@@ -4,9 +4,21 @@ import com.ycengine.post.BuildConfig
 
 object Constants {
 
+    const val DEBUG = true
+    const val DEBUG_REQUEST = true
+    const val DEBUG_DATABASE = true
+
     var STAMP_COUNT = 0
     var RIGHT_COUNT = 0
 
+    // Exception
+    const val INVALID_DATA   = "1"
+    const val SW_UPDATE_NEEDED = "0100"
+    const val SW_UPDATE_SUPPORT = "0101"
+    const val NOT_FOUND_USER = "0111"
+    const val ROOTING_DETECTED  = "rooting detected"
+
+    // Common
     const val SERVICE_CHAR_SET = "UTF-8"
     const val SERVICE_TAG = "POST"
     const val SERVICE_PACKAGE = "com.melodigm.post"

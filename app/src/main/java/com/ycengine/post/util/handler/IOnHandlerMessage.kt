@@ -1,4 +1,4 @@
-package com.naverlabs.around.handler
+package com.ycengine.post.util.handler
 
 import android.os.Message
 
