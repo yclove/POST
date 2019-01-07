@@ -1,20 +1,24 @@
 package com.ycengine.post.main
 
-import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.ycengine.post.data.dto.PostData
-import com.ycengine.post.repository.remote.RemoteEndModelRepository
+import com.ycengine.post.data.dto.ColorModel
+import com.ycengine.post.data.dto.HashPopKeywordModel
+import com.ycengine.post.data.dto.MusPopKeywordModel
+import com.ycengine.post.data.dto.PostPopKeywordModel
+import com.ycengine.post.repository.database.DatabaseRepository
 import io.reactivex.Flowable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 class PostViewModel : ViewModel() {
 
-    private val repository = RemoteEndModelRepository()
+    private val databaseRepository = DatabaseRepository()
 
-    val postData: MutableLiveData<PostData> = MutableLiveData()
-    val exceptionMessage: MutableLiveData<String> = MutableLiveData()
+    private var postColorData: List<ColorModel> = listOf()
+    private var hashPopKeywordData: List<HashPopKeywordModel> = listOf()
+    private var postPopKeywordData: List<PostPopKeywordModel> = listOf()
+    private var musPopKeywordData: List<MusPopKeywordModel> = listOf()
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -27,13 +31,33 @@ class PostViewModel : ViewModel() {
         val disposable = Flowable.just(Any())
             .subscribeOn(Schedulers.io())
             .map {
-                repository.getPost()
+                databaseRepository.getPostColor()
             }
-            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext {
+                postColorData = it
+            }
+            .map {
+                databaseRepository.getHashPopKeyword()
+            }
+            .doOnNext {
+                hashPopKeywordData = it
+            }
+            .map {
+                databaseRepository.getPostPopKeyword()
+            }
+            .doOnNext {
+                postPopKeywordData = it
+            }
+            .map {
+                databaseRepository.getMusPopKeyword()
+            }
+            .doOnNext {
+                musPopKeywordData = it
+            }
             .subscribe ({
-                postData.value = it
+                Timber.e("postColorData size : ${postColorData.size}\nhashPopKeywordData size : ${hashPopKeywordData.size}\npostPopKeywordData size : ${postPopKeywordData.size}\nmusPopKeywordData size : ${musPopKeywordData.size}")
             }, {
-                exceptionMessage.value = it.message
+                Timber.e("Error : ${it.message}")
             })
         compositeDisposable.add(disposable)
     }

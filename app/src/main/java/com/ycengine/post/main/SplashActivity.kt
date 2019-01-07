@@ -25,6 +25,10 @@ import com.ycengine.post.util.handler.WeakRefHandler
 import com.ycengine.post.widget.PostDialog
 import com.ycengine.post.widget.TextureVideoView
 import kotlinx.android.synthetic.main.activity_splash.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 
@@ -112,6 +116,34 @@ class SplashActivity : BaseActivity(), IOnHandlerMessage, View.OnClickListener {
                     mdbHelper.updateMusPopKeyWord(this)
                 }
                 mdbHelper.close()
+
+                /**
+                 * YCNOTE : coroutines launch & async
+                 *
+                 * 개념적으로 async 는 launch 와 같습니다.
+                 * launch 는 Job 을 반환하고 아무런 결과 값도 전달하지 않는 반면 async 는 Deferred 를 반환합니다.
+                 * Deferred 은 light-weight non-blocking future 로 결과를 전달하며, .await()을 사용하면 최종 결과를 얻을 수 있습니다.
+                 * Deferred 는 또한 Job 이기 때문에 필요할 경우 취소 할 수 있습니다.
+                 */
+                GlobalScope.launch {
+                    viewModel.clearPostData()
+
+                    appVersionData.arrColorItem?.takeIf { list -> list.isNotEmpty() }?.run {
+                        viewModel.insertPostColorData(this)
+                    }
+
+                    appVersionData.arrPostHashTagKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
+                        viewModel.insertHashPopKeyword(this)
+                    }
+
+                    appVersionData.arrPostPopKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
+                        viewModel.insertPostPopKeyword(this)
+                    }
+
+                    appVersionData.arrMusPopKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
+                        viewModel.insertMusPopKeyword(this)
+                    }
+                }
 
                 TedPermission.with(this)
                     .setPermissionListener(permissionListener)

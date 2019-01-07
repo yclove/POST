@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import com.ycengine.post.data.dto.ColorItem;
+import com.ycengine.post.data.dto.ColorModel;
 import com.ycengine.post.util.DeviceUtil;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class ColorIndicatorView extends HorizontalScrollView {
     private LinearLayout mTabLayout;
     private Runnable mTabSelector;
     private ColorIndicator mColorIndicator;
-    private ArrayList<ColorItem> mItems;
+    private ArrayList<ColorModel> mItems;
     private int spaceWidth;
 
     public ColorIndicatorView(Context context) {
@@ -47,7 +47,7 @@ public class ColorIndicatorView extends HorizontalScrollView {
         }
     };
 
-    public void addAllItems(ArrayList<ColorItem> data){
+    public void addAllItems(ArrayList<ColorModel> data){
         if(mItems != null) {
             mItems.clear();
             mTabLayout.removeAllViews();
@@ -68,11 +68,11 @@ public class ColorIndicatorView extends HorizontalScrollView {
         }
     }
 
-    public ArrayList<ColorItem> getAllItems(){
+    public ArrayList<ColorModel> getAllItems(){
         return mItems;
     }
 
-    public void addTab(int paramInt, ColorItem item) {
+    public void addTab(int paramInt, ColorModel item) {
         ColorItemView localTabView = new ColorItemView(getContext());
         localTabView.setIndex(paramInt);
         localTabView.setFocusable(true);

@@ -1,6 +1,7 @@
 package com.ycengine.post.data.dto
 
 import android.os.Parcelable
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -17,6 +18,8 @@ data class CabinetMusicDataItem(
     var POST_TYPE: String = "",
     var REG_DATE: String = "",
     var ALBUM_PATH: String = "",
-    var TITL_TOGGLE_YN: String = "",
+    var TITL_TOGGLE_YN: String = ""
+) : Parcelable {
+    @IgnoredOnParcel
     var isChecked: Boolean = false
-) : Parcelable
+}

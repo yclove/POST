@@ -2,16 +2,19 @@ package com.ycengine.post.main
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.ycengine.post.data.dto.AppVersionData
+import com.ycengine.post.data.dto.*
+import com.ycengine.post.repository.database.DatabaseRepository
 import com.ycengine.post.repository.remote.RemoteEndModelRepository
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 class SplashViewModel : ViewModel() {
 
-    private val repository = RemoteEndModelRepository()
+    private val remoteRepository = RemoteEndModelRepository()
+    private val databaseRepository = DatabaseRepository()
 
     val appVersionData: MutableLiveData<AppVersionData> = MutableLiveData()
     val exceptionMessage: MutableLiveData<String> = MutableLiveData()
@@ -23,20 +26,47 @@ class SplashViewModel : ViewModel() {
         compositeDisposable.clear()
     }
 
-    init {}
+    init {
+    }
 
     fun getAppVersionData() {
         val disposable = Flowable.just(Any())
             .subscribeOn(Schedulers.io())
             .map {
-                repository.getAppVersion()
+                remoteRepository.getAppVersion()
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({
                 appVersionData.value = it
             }, {
+                Timber.e("subscribe Catch!!!!!!!!!!!!!!!")
                 exceptionMessage.value = it.message
             })
         compositeDisposable.add(disposable)
+    }
+
+    fun clearPostData() {
+        try {
+            databaseRepository.clearPostData()
+            Timber.e("Post data 초기화")
+        } catch (e: Exception) {
+            Timber.e("Post data 초기화에 실패하였습니다. (${e.message})")
+        }
+    }
+
+    fun insertPostColorData(colors: List<ColorModel>) {
+        databaseRepository.insertColors(colors)
+    }
+
+    fun insertHashPopKeyword(keywords: List<HashPopKeywordModel>) {
+        databaseRepository.insertHashPopKeyword(keywords)
+    }
+
+    fun insertPostPopKeyword(keywords: List<PostPopKeywordModel>) {
+        databaseRepository.insertPostPopKeyword(keywords)
+    }
+
+    fun insertMusPopKeyword(keywords: List<MusPopKeywordModel>) {
+        databaseRepository.insertMusPopKeyword(keywords)
     }
 }

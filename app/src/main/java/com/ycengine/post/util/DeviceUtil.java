@@ -380,7 +380,7 @@ public class DeviceUtil {
             PendingIntent contentIntent = PendingIntent.getActivity(context, 8888, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             /**
-             * YCNOTE - Notification
+             * YCNOTE : Notification
              *
              * setSmallIcon : 아이콘입니다 구 소스의 icon이랑 같습니다
              * setTicker : 알림이 뜰때 잠깐 표시되는 Text이며, 구 소스의 tickerText이랑 같습니다

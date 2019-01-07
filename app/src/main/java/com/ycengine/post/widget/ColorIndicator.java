@@ -1,8 +1,8 @@
 package com.ycengine.post.widget;
 
-import com.ycengine.post.data.dto.ColorItem;
+import com.ycengine.post.data.dto.ColorModel;
 
 public interface ColorIndicator
 {
-    void changeTabIndicator(ColorItem item);
+    void changeTabIndicator(ColorModel item);
 }

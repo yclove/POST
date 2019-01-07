@@ -9,12 +9,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.ycengine.post.R;
-import com.ycengine.post.data.dto.ColorItem;
+import com.ycengine.post.data.dto.ColorModel;
 
 public class ColorItemView extends RelativeLayout {
     private Context mContext;
     private int mIndex;
-    private ColorItem mItem;
+    private ColorModel mItem;
     private ImageView ivPostColorChoiceCirCle, ivPostColorCirCle;
 
     public ColorItemView(Context context) {
@@ -58,7 +58,7 @@ public class ColorItemView extends RelativeLayout {
     }
 
     public void setSelected() {
-        if (!"FFFFFF".equals(mItem.getCOLOR_CODE().toUpperCase())) {
+        if (!"FFFFFF".equals(mItem.getCode().toUpperCase())) {
             final int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27, getResources().getDisplayMetrics());
             final int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 27, getResources().getDisplayMetrics());
 
@@ -73,7 +73,7 @@ public class ColorItemView extends RelativeLayout {
     }
 
     public void setUnSelected() {
-        if (!"FFFFFF".equals(mItem.getCOLOR_CODE().toUpperCase())) {
+        if (!"FFFFFF".equals(mItem.getCode().toUpperCase())) {
             final int width = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
             final int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 32, getResources().getDisplayMetrics());
 
@@ -87,23 +87,23 @@ public class ColorItemView extends RelativeLayout {
         }
     }
 
-    public void setItemData(ColorItem item){
+    public void setItemData(ColorModel item){
         mItem = item;
 
-        if ("FFFFFF".equals(mItem.getCOLOR_CODE().toUpperCase())) {
+        if ("FFFFFF".equals(mItem.getCode().toUpperCase())) {
             // TODO : YCLOVE
 //            ivPostColorCirCle.setImageResource(R.drawable.icon_color_default);
         } else {
-            ivPostColorCirCle.setImageDrawable(new ColorCircleDrawable(Integer.parseInt(mItem.getCOLOR_CODE(), 16) + 0xFF000000));
+            ivPostColorCirCle.setImageDrawable(new ColorCircleDrawable(Integer.parseInt(mItem.getCode(), 16) + 0xFF000000));
         }
         ivPostColorCirCle.setTag(mItem);
     }
 
-    public ColorItem getItemData(){
+    public ColorModel getItemData(){
         return mItem;
     }
 
     public String getICI(){
-        return mItem.getICI();
+        return mItem.getIci();
     }
 }

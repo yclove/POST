@@ -7,6 +7,7 @@ import android.os.Bundle
 import com.ycengine.post.R
 import com.ycengine.post.common.base.BaseActivity
 import com.ycengine.post.databinding.ActivityPostBinding
+import timber.log.Timber
 
 class PostActivity : BaseActivity() {
 
@@ -23,10 +24,10 @@ class PostActivity : BaseActivity() {
             .of(this)
             .get(PostViewModel::class.java)
 
-//        viewModel
-//            .getEventModel()
-//            .observe(this, Observer {
-//                adapter.notifyDataSetChanged()
-//            })
+        /*viewModel
+            .postColorData
+            .observe(this, Observer {
+                Timber.e()
+            })*/
     }
 }

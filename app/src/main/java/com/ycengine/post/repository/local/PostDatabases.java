@@ -889,8 +889,8 @@ public class PostDatabases {
      * 인기 검색어 가져오기
      * @return 인기 검색어 목록
      */
-    public ArrayList<PostHashTagKeyWordItem> getAllPostHashTagKeyWords(){
-        ArrayList<PostHashTagKeyWordItem> result =  new ArrayList<>();
+    public ArrayList<HashPopKeywordModel> getAllPostHashTagKeyWords(){
+        ArrayList<HashPopKeywordModel> result =  new ArrayList<>();
 
         Cursor cursor =  mDb.query(PostDBInfo.DB_TABLE_POST_HASHTAG_KEYWORD,null,null, null, null, null, PostDBInfo.COLUMN_POST_HASHTAG_RANKING + " ASC");
         if(cursor != null){
@@ -899,10 +899,7 @@ public class PostDatabases {
                 String POST_HASHTAG_KEYWORD = cursor.getString(cursor.getColumnIndex(PostDBInfo.COLUMN_POST_HASHTAG_KEYWORD));
                 int POST_HASHTAG_COUNT = cursor.getInt(cursor.getColumnIndex(PostDBInfo.COLUMN_POST_HASHTAG_COUNT));
 
-                PostHashTagKeyWordItem item = new PostHashTagKeyWordItem();
-                item.setRANKING(POST_HASHTAG_RANKING);
-                item.setKEYWORD(POST_HASHTAG_KEYWORD);
-                item.setCOUNT(POST_HASHTAG_COUNT);
+                HashPopKeywordModel item = new HashPopKeywordModel(POST_HASHTAG_RANKING, POST_HASHTAG_KEYWORD, POST_HASHTAG_COUNT);
                 result.add(item);
             }
             cursor.close();
@@ -921,12 +918,12 @@ public class PostDatabases {
     /**
      * 인기 검색어로 저장하기
      */
-    public void updatePostHashTagKeyWord(ArrayList<PostHashTagKeyWordItem> arrPostHashTagKeyWordItems){
-        for (PostHashTagKeyWordItem item : arrPostHashTagKeyWordItems) {
+    public void updatePostHashTagKeyWord(ArrayList<HashPopKeywordModel> arrPostHashTagKeyWordItems){
+        for (HashPopKeywordModel item : arrPostHashTagKeyWordItems) {
             ContentValues val = new ContentValues();
-            val.put(PostDBInfo.COLUMN_POST_HASHTAG_RANKING, item.getRANKING());
-            val.put(PostDBInfo.COLUMN_POST_HASHTAG_KEYWORD, item.getKEYWORD());
-            val.put(PostDBInfo.COLUMN_POST_HASHTAG_COUNT, item.getCOUNT());
+            val.put(PostDBInfo.COLUMN_POST_HASHTAG_RANKING, item.getRanking());
+            val.put(PostDBInfo.COLUMN_POST_HASHTAG_KEYWORD, item.getKeyword());
+            val.put(PostDBInfo.COLUMN_POST_HASHTAG_COUNT, item.getCount());
             mDb.insert(PostDBInfo.DB_TABLE_POST_HASHTAG_KEYWORD, null, val);
         }
 
@@ -973,8 +970,8 @@ public class PostDatabases {
      * 인기 검색어 가져오기
      * @return 인기 검색어 목록
      */
-    public ArrayList<MusPopKeyWordItem> getAllPostPopKeyWords(){
-        ArrayList<MusPopKeyWordItem> result =  new ArrayList<>();
+    public ArrayList<PostPopKeywordModel> getAllPostPopKeyWords(){
+        ArrayList<PostPopKeywordModel> result =  new ArrayList<>();
 
         Cursor cursor =  mDb.query(PostDBInfo.DB_TABLE_POST_POP_KEYWORD,null,null, null, null, null, PostDBInfo.COLUMN_POST_POP_RANKING + " ASC");
         if(cursor != null){
@@ -982,9 +979,7 @@ public class PostDatabases {
                 int POST_POP_RANKING = cursor.getInt(cursor.getColumnIndex(PostDBInfo.COLUMN_POST_POP_RANKING));
                 String POST_POP_KEYWORD = cursor.getString(cursor.getColumnIndex(PostDBInfo.COLUMN_POST_POP_KEYWORD));
 
-                MusPopKeyWordItem item = new MusPopKeyWordItem();
-                item.setRANKING(POST_POP_RANKING);
-                item.setKEYWORD(POST_POP_KEYWORD);
+                PostPopKeywordModel item = new PostPopKeywordModel(POST_POP_RANKING, POST_POP_KEYWORD);
                 result.add(item);
             }
             cursor.close();
@@ -1003,11 +998,11 @@ public class PostDatabases {
     /**
      * 인기 검색어로 저장하기
      */
-    public void updatePostPopKeyWord(ArrayList<MusPopKeyWordItem> arrPostPopKeyWordItems){
-        for (MusPopKeyWordItem item : arrPostPopKeyWordItems) {
+    public void updatePostPopKeyWord(ArrayList<PostPopKeywordModel> arrPostPopKeyWordItems){
+        for (PostPopKeywordModel item : arrPostPopKeyWordItems) {
             ContentValues val = new ContentValues();
-            val.put(PostDBInfo.COLUMN_POST_POP_RANKING, item.getRANKING());
-            val.put(PostDBInfo.COLUMN_POST_POP_KEYWORD, item.getKEYWORD());
+            val.put(PostDBInfo.COLUMN_POST_POP_RANKING, item.getRanking());
+            val.put(PostDBInfo.COLUMN_POST_POP_KEYWORD, item.getKeyword());
             mDb.insert(PostDBInfo.DB_TABLE_POST_POP_KEYWORD, null, val);
         }
 
@@ -1054,8 +1049,8 @@ public class PostDatabases {
      * 인기 검색어 가져오기
      * @return 인기 검색어 목록
      */
-    public ArrayList<MusPopKeyWordItem> getAllMusPopKeyWords(){
-        ArrayList<MusPopKeyWordItem> result =  new ArrayList<>();
+    public ArrayList<MusPopKeywordModel> getAllMusPopKeyWords(){
+        ArrayList<MusPopKeywordModel> result =  new ArrayList<>();
 
         Cursor cursor =  mDb.query(PostDBInfo.DB_TABLE_MUS_POP_KEYWORD,null,null, null, null, null, PostDBInfo.COLUMN_MUS_POP_RANKING + " ASC");
         if(cursor != null){
@@ -1063,9 +1058,7 @@ public class PostDatabases {
                 int MUS_POP_RANKING = cursor.getInt(cursor.getColumnIndex(PostDBInfo.COLUMN_MUS_POP_RANKING));
                 String MUS_POP_KEYWORD = cursor.getString(cursor.getColumnIndex(PostDBInfo.COLUMN_MUS_POP_KEYWORD));
 
-                MusPopKeyWordItem item = new MusPopKeyWordItem();
-                item.setRANKING(MUS_POP_RANKING);
-                item.setKEYWORD(MUS_POP_KEYWORD);
+                MusPopKeywordModel item = new MusPopKeywordModel(MUS_POP_RANKING, MUS_POP_KEYWORD);
                 result.add(item);
             }
             cursor.close();
@@ -1084,11 +1077,11 @@ public class PostDatabases {
     /**
      * 인기 검색어로 저장하기
      */
-    public void updateMusPopKeyWord(ArrayList<MusPopKeyWordItem> arrMusPopKeyWordItems){
-        for (MusPopKeyWordItem item : arrMusPopKeyWordItems) {
+    public void updateMusPopKeyWord(ArrayList<MusPopKeywordModel> arrMusPopKeyWordItems){
+        for (MusPopKeywordModel item : arrMusPopKeyWordItems) {
             ContentValues val = new ContentValues();
-            val.put(PostDBInfo.COLUMN_MUS_POP_RANKING, item.getRANKING());
-            val.put(PostDBInfo.COLUMN_MUS_POP_KEYWORD, item.getKEYWORD());
+            val.put(PostDBInfo.COLUMN_MUS_POP_RANKING, item.getRanking());
+            val.put(PostDBInfo.COLUMN_MUS_POP_KEYWORD, item.getKeyword());
             mDb.insert(PostDBInfo.DB_TABLE_MUS_POP_KEYWORD, null, val);
         }
 
@@ -1135,8 +1128,8 @@ public class PostDatabases {
      * 컬러 가져오기
      * @return 컬러 목록
      */
-    public ArrayList<ColorItem> getAllPostColors(){
-        ArrayList<ColorItem> result =  new ArrayList<>();
+    public ArrayList<ColorModel> getAllPostColors(){
+        ArrayList<ColorModel> result =  new ArrayList<>();
 
         Cursor cursor =  mDb.query(PostDBInfo.DB_TABLE_POST_COLOR,null,null, null, null, null, PostDBInfo.COLUMN_POST_COLOR_SORT_ORDER + " ASC");
         if(cursor != null){
@@ -1146,11 +1139,7 @@ public class PostDatabases {
                 int POST_COLOR_SORT_ORDER = cursor.getInt(cursor.getColumnIndex(PostDBInfo.COLUMN_POST_COLOR_SORT_ORDER));
                 String POST_COLOR_ICON_NM = cursor.getString(cursor.getColumnIndex(PostDBInfo.COLUMN_POST_COLOR_ICON_NM));
 
-                ColorItem colorItem = new ColorItem();
-                colorItem.setICI(POST_COLOR_ICI);
-                colorItem.setCOLOR_CODE(POST_COLOR_CODE);
-                colorItem.setSORT_ORDER(POST_COLOR_SORT_ORDER);
-                colorItem.setICON_NM(POST_COLOR_ICON_NM);
+                ColorModel colorItem = new ColorModel(POST_COLOR_ICI, POST_COLOR_CODE, POST_COLOR_SORT_ORDER, POST_COLOR_ICON_NM);
                 result.add(colorItem);
             }
             cursor.close();
@@ -1169,13 +1158,13 @@ public class PostDatabases {
     /**
      * 컬러 저장하기
      */
-    public void updatePostColor(ArrayList<ColorItem> arrColorItems) {
-        for (ColorItem item : arrColorItems) {
+    public void updatePostColor(ArrayList<ColorModel> arrColorItems) {
+        for (ColorModel item : arrColorItems) {
             ContentValues val = new ContentValues();
-            val.put(PostDBInfo.COLUMN_POST_COLOR_ICI, item.getICI());
-            val.put(PostDBInfo.COLUMN_POST_COLOR_CODE, item.getCOLOR_CODE());
-            val.put(PostDBInfo.COLUMN_POST_COLOR_SORT_ORDER, item.getSORT_ORDER());
-            val.put(PostDBInfo.COLUMN_POST_COLOR_ICON_NM, item.getICON_NM());
+            val.put(PostDBInfo.COLUMN_POST_COLOR_ICI, item.getIci());
+            val.put(PostDBInfo.COLUMN_POST_COLOR_CODE, item.getCode());
+            val.put(PostDBInfo.COLUMN_POST_COLOR_SORT_ORDER, item.getSortOrder());
+            val.put(PostDBInfo.COLUMN_POST_COLOR_ICON_NM, item.getIconNm());
             mDb.insert(PostDBInfo.DB_TABLE_POST_COLOR, null, val);
         }
 
