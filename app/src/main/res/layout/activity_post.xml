@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,39 +9,29 @@
         <!--type="com.naver.webnovel.main.MainTabPresenter" />-->
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#FF000000"
+        tools:context=".main.PostActivity">
 
-        <android.support.design.widget.AppBarLayout
+        <!-- Header -->
+        <com.ycengine.post.widget.PostHeader
+            android:id="@+id/postHeader"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:elevation="0dp">
+            android:layout_height="wrap_content" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways">
-
-                <TextView
-                    android:id="@+id/tv_toolbar_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-            </android.support.v7.widget.Toolbar>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/vp_main_tab_container"
+        <!-- 사연 뷰페이저 -->
+        <com.ycengine.post.widget.SwipingViewPager
+            android:id="@+id/mMainViewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="match_parent" />
 
-    </android.support.design.widget.CoordinatorLayout>
+        <FrameLayout
+            android:id="@+id/main_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </layout>

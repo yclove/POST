@@ -17,7 +17,6 @@ import com.ycengine.post.R
 import com.ycengine.post.common.Constants
 import com.ycengine.post.common.base.BaseActivity
 import com.ycengine.post.databinding.ActivitySplashBinding
-import com.ycengine.post.repository.local.PostDatabases
 import com.ycengine.post.util.DeviceUtil
 import com.ycengine.post.util.SPUtil
 import com.ycengine.post.util.handler.IOnHandlerMessage
@@ -25,9 +24,7 @@ import com.ycengine.post.util.handler.WeakRefHandler
 import com.ycengine.post.widget.PostDialog
 import com.ycengine.post.widget.TextureVideoView
 import kotlinx.android.synthetic.main.activity_splash.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
@@ -36,7 +33,6 @@ class SplashActivity : BaseActivity(), IOnHandlerMessage, View.OnClickListener {
 
     private lateinit var binding: ActivitySplashBinding
     private lateinit var viewModel: SplashViewModel
-    private lateinit var mdbHelper: PostDatabases
 
     private val mHandler by lazy {
         WeakRefHandler(this)
@@ -62,21 +58,21 @@ class SplashActivity : BaseActivity(), IOnHandlerMessage, View.OnClickListener {
             .of(this)
             .get(SplashViewModel::class.java)
 
-        viewModel.appVersionData.observe(this, Observer {
-            it?.let { appVersionData ->
-                if (SPUtil.getIntSharedPreference(this, Constants.SP_LATEST_APP_VERSION) != appVersionData.APP_VER)
-                    SPUtil.setSharedPreference(this, Constants.SP_LATEST_APP_VERSION, appVersionData.APP_VER)
+        viewModel.appVersionModel.observe(this, Observer {
+            it?.let { appVersionModel ->
+                if (SPUtil.getIntSharedPreference(this, Constants.SP_LATEST_APP_VERSION) != appVersionModel.APP_VER)
+                    SPUtil.setSharedPreference(this, Constants.SP_LATEST_APP_VERSION, appVersionModel.APP_VER)
 
-                if (!SPUtil.getSharedPreference(this, Constants.SP_ICI_LIKE).equals(appVersionData.LIKE_ICI, ignoreCase = false))
-                    SPUtil.setSharedPreference(this, Constants.SP_ICI_LIKE, appVersionData.LIKE_ICI);
+                if (!SPUtil.getSharedPreference(this, Constants.SP_ICI_LIKE).equals(appVersionModel.LIKE_ICI, ignoreCase = false))
+                    SPUtil.setSharedPreference(this, Constants.SP_ICI_LIKE, appVersionModel.LIKE_ICI)
 
-                if (!SPUtil.getSharedPreference(this, Constants.SP_COUNTRY_CODE).equals(appVersionData.COUNTRY_CODE, ignoreCase = false))
-                    SPUtil.setSharedPreference(this, Constants.SP_COUNTRY_CODE, appVersionData.COUNTRY_CODE)
+                if (!SPUtil.getSharedPreference(this, Constants.SP_COUNTRY_CODE).equals(appVersionModel.COUNTRY_CODE, ignoreCase = false))
+                    SPUtil.setSharedPreference(this, Constants.SP_COUNTRY_CODE, appVersionModel.COUNTRY_CODE)
 
-                if (!SPUtil.getSharedPreference(this, Constants.SP_INTRO_BG).equals(appVersionData.POST_INTRO_BG, ignoreCase = false))
-                    SPUtil.setSharedPreference(this, Constants.SP_INTRO_BG, appVersionData.POST_INTRO_BG)
+                if (!SPUtil.getSharedPreference(this, Constants.SP_INTRO_BG).equals(appVersionModel.POST_INTRO_BG, ignoreCase = false))
+                    SPUtil.setSharedPreference(this, Constants.SP_INTRO_BG, appVersionModel.POST_INTRO_BG)
 
-                appVersionData.arrNotiSettingItem?.takeIf { list -> list.isNotEmpty() }?.run {
+                appVersionModel.arrNotiSettingItem?.takeIf { list -> list.isNotEmpty() }?.run {
                     val isNotificationPost: Boolean = "Y".equals(this[0].POST, ignoreCase = true)
                     val isNotificationOst: Boolean = "Y".equals(this[0].OST, ignoreCase = true)
                     val isNotificationService: Boolean = "Y".equals(this[0].MANNER, ignoreCase = true)
@@ -92,33 +88,8 @@ class SplashActivity : BaseActivity(), IOnHandlerMessage, View.OnClickListener {
                         SPUtil.setSharedPreference(this@SplashActivity, Constants.SP_NOTIFICATION_TODAY, isNotificationToday)
                 }
 
-                mdbHelper = PostDatabases(this).apply {
-                    open()
-                    deleteAllPostColors()
-                    deleteAllPostHashTagKeyWords()
-                    deleteAllPostPopKeyWords()
-                    deleteAllMusPopKeyWords()
-                }
-
-                appVersionData.arrColorItem?.takeIf { list -> list.isNotEmpty() }?.run {
-                    mdbHelper.updatePostColor(this)
-                }
-
-                appVersionData.arrPostHashTagKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
-                    mdbHelper.updatePostHashTagKeyWord(this)
-                }
-
-                appVersionData.arrPostPopKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
-                    mdbHelper.updatePostPopKeyWord(this)
-                }
-
-                appVersionData.arrMusPopKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
-                    mdbHelper.updateMusPopKeyWord(this)
-                }
-                mdbHelper.close()
-
                 /**
-                 * YCNOTE : coroutines launch & async
+                 * YCNOTE : kotlin coroutines launch & async
                  *
                  * 개념적으로 async 는 launch 와 같습니다.
                  * launch 는 Job 을 반환하고 아무런 결과 값도 전달하지 않는 반면 async 는 Deferred 를 반환합니다.
@@ -128,19 +99,19 @@ class SplashActivity : BaseActivity(), IOnHandlerMessage, View.OnClickListener {
                 GlobalScope.launch {
                     viewModel.clearPostData()
 
-                    appVersionData.arrColorItem?.takeIf { list -> list.isNotEmpty() }?.run {
+                    appVersionModel.arrColorItem?.takeIf { list -> list.isNotEmpty() }?.run {
                         viewModel.insertPostColorData(this)
                     }
 
-                    appVersionData.arrPostHashTagKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
+                    appVersionModel.arrPostHashTagKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
                         viewModel.insertHashPopKeyword(this)
                     }
 
-                    appVersionData.arrPostPopKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
+                    appVersionModel.arrPostPopKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
                         viewModel.insertPostPopKeyword(this)
                     }
 
-                    appVersionData.arrMusPopKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
+                    appVersionModel.arrMusPopKeyWordItem?.takeIf { list -> list.isNotEmpty() }?.run {
                         viewModel.insertMusPopKeyword(this)
                     }
                 }
@@ -169,7 +140,7 @@ class SplashActivity : BaseActivity(), IOnHandlerMessage, View.OnClickListener {
                     this@SplashActivity,
                     getString(R.string.dialog_confirm_delete)
                 ).show()
-                Timber.e("$message")
+                Timber.e("Error : $message")
             }
         })
     }
@@ -211,7 +182,7 @@ class SplashActivity : BaseActivity(), IOnHandlerMessage, View.OnClickListener {
 
     override fun onClick(v: View?) {
         v?.let {
-            when (v.getId()) {
+            when (v.id) {
                 // 삭제 onClick
                 R.id.rlNoticeLayoutCloseBtn -> {
                 }

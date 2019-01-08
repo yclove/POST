@@ -13,6 +13,12 @@ import com.ycengine.post.data.dto.PostPopKeywordModel
 @Dao
 interface PostDao {
 
+    /**
+     * YCQUESTION : ROOM
+     *
+     * Return 값이 LiveData 이라면 비동기 List 라면 동기처리 ?
+     */
+
     // tblColor
     @Insert(onConflict = REPLACE)
     fun insertColors(colors: List<ColorModel>)

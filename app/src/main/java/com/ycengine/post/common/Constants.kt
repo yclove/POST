@@ -35,7 +35,7 @@ object Constants {
     const val SERVICE_CABINET_IMAGE_PATH = "PostCabinet"
     const val SERVICE_CABINET_IMAGE_NAME = "PostCabinet.png"
     const val STROKE_WIDTH = 10.0f
-    const val TEXT_VIEW_SPACING = 3
+    const val TEXT_VIEW_SPACING = 3f
     const val GLIDE_THUMBNAIL = 0.1f
 
     // CUSTOM SCHEME

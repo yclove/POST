@@ -10,13 +10,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import java.io.IOException
 
 class SplashViewModel : ViewModel() {
 
     private val remoteRepository = RemoteEndModelRepository()
     private val databaseRepository = DatabaseRepository()
 
-    val appVersionData: MutableLiveData<AppVersionData> = MutableLiveData()
+    val appVersionModel: MutableLiveData<AppVersionModel> = MutableLiveData()
     val exceptionMessage: MutableLiveData<String> = MutableLiveData()
 
     private val compositeDisposable = CompositeDisposable()
@@ -37,9 +38,11 @@ class SplashViewModel : ViewModel() {
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({
-                appVersionData.value = it
+                appVersionModel.value = it
             }, {
-                Timber.e("subscribe Catch!!!!!!!!!!!!!!!")
+                if (it is IOException) {
+                    it.printStackTrace()
+                }
                 exceptionMessage.value = it.message
             })
         compositeDisposable.add(disposable)

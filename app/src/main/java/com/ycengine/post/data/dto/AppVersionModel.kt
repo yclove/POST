@@ -2,7 +2,7 @@ package com.ycengine.post.data.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class AppVersionData(
+data class AppVersionModel(
     val APP_VER: Int = 0,
     val CPS_UPD_YN: String = "",
     val APP_VERNM: String = "",
