@@ -8,6 +8,7 @@ apply plugin: 'kotlin-android'
  */
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
@@ -98,8 +99,8 @@ android {
         // 앱 구동 시 자바 할당 힙을 지정
         javaMaxHeapSize "4g"
     }
-    // issue : More than one file was found with OS independent path 'META-INF/rxjava.properties'
-    packagingOptions{
+    // YCISSUE : More than one file was found with OS independent path 'META-INF/rxjava.properties'
+    packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
     // 직렬화 어노테이션 @Parcelize 을 쓰기 위한 처리
@@ -122,9 +123,14 @@ dependencies {
     implementation "com.android.support:design:$support_library_version"
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    // YCISSUE : All com.android.support libraries must use the exact same version specification - with Firebase
+    implementation "com.android.support:support-media-compat:$support_library_version"
+    implementation "com.android.support:support-v4:$support_library_version"
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0"
+    // Firebase : FCM(Firebase Cloud Messaging) - Google 에서 Firebase 를 인수 후 2019년까지 GCM(Google Cloud Messaging) 서비시를 제공하고 이후에는 모든 프로그램을 FCM 서비스로 변경해야함.
+    implementation 'com.google.firebase:firebase-messaging:17.3.4'
     // Test
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

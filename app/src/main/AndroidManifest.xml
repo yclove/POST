@@ -44,7 +44,11 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- ################################ [ 프로세스 종료 권한 ] -->
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
-    <!-- ################################ [ 작업 정보 조회 ] -->
+    <!--
+        작업 정보 조회
+        API Level 21(Android 5.0) 부터는 추가하지 않아도 됩니다.
+        하지만 앱이 21 하위 버전에서도 동작한다면 이 퍼미션이 선언되어 있지 않으면 실행 시 에러가 발생합니다.
+    -->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <!-- ################################ [ 전화기 상태 정보(통화중 상태,전화번호,기기 식별자,일련번호 ) 조회 ] -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -91,13 +95,13 @@
 	-->
     <application
         android:name=".PostApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon,android:theme">
+        tools:replace="android:icon,android:theme,allowBackup">
 
         <!-- YCNOTE : Meta-data
 			* 데이터에 대한 정의나 설명이다. 컴포넌트 엘리먼트는 <meta-data> 서브엘리먼트를 포함할 수 있다. <meta-data>의 모든 값은 하나의 Bundle 로 모아지고 PackageItemInfo.metaData 필드로써 컴포넌트에서 사용할 수 있다.
@@ -110,6 +114,9 @@
 												- getString()	: "#rgb", "#argb", "#rrggbb" 또는 "#aarrggbb" 형식의 컬러 값
 												- getFloat()		: "1.23" 같은 부동소수점 값
 		-->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <!-- YCNOTE : Service
             * 각 서비스마다 <service>태그가 필요하다. 서비스는 백그라운드 오퍼레이션이나 다른 애플리케이션이 호출 할 수 있는 커뮤니케이션 API 를 구현하기 위해 사용된다.
             * android:icon				: 서비스 아이콘은 이곳에서 설정하던 <application>엘리먼트에서 설정하던 모든 서비스의 인텐트 필터에 대한 디폴트 아이콘이다.
@@ -117,7 +124,18 @@
             * android:name			    : 서비스를 구현하는 Service 서브클래스의 이름이다. com.example.project.RoomService 처럼 전체 클래스 이름이어야 한다. 하지만 .RoomService 와 같이 단축형 이름이라면 <manifest>엘리먼트에 지정된 패키지 이름 끝에 붙여진다.
             * android:permission		: 서비스를 런치하거나 바인드를 하기 위해 가져야 하는 퍼미션 이름이다. 만약 startsService(), bindService(), stopService()의 호출자가 이 퍼미션을 부여받지 않는다면 이 메쏘느는 작동하지 않으며 인턴트 오브젝트는 서비스에 전달되지 않는다.
                                                 : 이 퍼미션을 설정하지 않으면 <application>퍼미션이 적용되고 <application>퍼미션이 없다면 퍼미션이 적용되지 않는다.
+            * android:exported        : android:exported 는 주어진 앱(App)의 컴포넌트(구성 요소)가 다른 앱도 사용 가능한 지를 나타내는 Boolean 값이다.
+                                                  다시 말하면 이 값이 true 이면 Receiver 를 다른 앱에서도 사용할 수 있기 때문에 경고(Warning)을 한다는 것이다.
+                                                  기본 값은 false 로 이 Receiver 가 특정 앱(App) 내부에서만 사용된다는 것을 가리키는데 하나 이상의 Intent-filter 가 있으면 true 로 설정된다.
+                                                  (실제로는 Intent-filter 가 있어도 그 Action 따라서 나오지 않기도 한다.)
         -->
+        <service
+            android:name=".firebase.PostFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <!-- YCNOTE : Activity
             * screenOrientation					    : 해당 Activity 에 가로 (landscape), 세로 (portrait), 모두 전환 (sensor : Device 설정과 무관하게 동작), 모두 전환 (unspecified : Device 설정에 따라 동작) 모드를 설정
             * android:configChanges			    : Activity 가 스스로 handling 할 환경 변화 ( Config Changes ) 를 나열해 주는 곳입니다.
