@@ -132,7 +132,7 @@ class RegistUserFragment : BaseFragment(), IOnHandlerMessage {
                 jsonObject.put("PUSH_ID", SPUtil.getSharedPreference(context, Constants.SP_PUSH_ID))
                 jsonObject.put("BIRTHDATE", mUserBirthYear)
                 jsonObject.put("GENDER", if (binding.tgMaleBtn.isChecked) "M" else "F")
-                val body = RequestBody.create(MediaType.parse("${Constants.HEADER_CONTENT_TYPE_FORM}; charset=${Constants.SERVICE_CHAR_SET}"), "REQ_DATA=$jsonObject")
+                val body = RequestBody.create(MediaType.parse(Constants.HEADER_CONTENT_TYPE_FORM), "REQ_DATA=$jsonObject")
                 viewModel.registUser(body)
             }
         }

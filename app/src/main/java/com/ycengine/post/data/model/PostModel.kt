@@ -22,7 +22,7 @@ import kotlinx.android.parcel.Parcelize
  * 정말 많은 뭉태기의 property 들이 한 클래스에 있는 경우는 드물겠지만, 그런 경우라면 Parcelable 의 성능이 훨씬 빠르다.
  */
 @Parcelize
-data class PostData(
+data class PostModel(
     val POST_TYPE: String = "",
     val KWD: String = "",
     val EMOTICON: String = "",

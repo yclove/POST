@@ -2,7 +2,7 @@ package com.ycengine.post.main
 
 import android.support.v4.view.PagerAdapter
 import android.view.View
-import com.ycengine.post.data.model.PostData
+import com.ycengine.post.data.model.PostModel
 
 /**
  * YCNOTE : FragmentPagerAdapter 와 FragmentStatePagerAdapter
@@ -34,7 +34,7 @@ import com.ycengine.post.data.model.PostData
  */
 class PostAdapter: PagerAdapter() {
 
-    private var mItems = arrayListOf<PostData>()
+    private var mItems = arrayListOf<PostModel>()
 
     // instantiateItem() 메소드에서 리턴된 Object 가 View 가  맞는지 확인하는 메소드
     override fun isViewFromObject(v: View, obj: Any): Boolean {

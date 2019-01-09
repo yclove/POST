@@ -9,6 +9,7 @@ coroutines
 Firebase
 rxjava
 Parcelize
+Gson
 BIRTHDATE
 DCRE
 ARTI

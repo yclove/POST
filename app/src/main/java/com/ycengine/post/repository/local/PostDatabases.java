@@ -539,17 +539,17 @@ public class PostDatabases {
     public int updateOstPlayList(Object item, String... args) {
         int updateCount = 0;
         String POST_TYPE, POI_SSI, POI, OTI, SSI, TITLE_STATE, COLOR_HEX, RADIO_PATH, ALBUM_PATH, ARTI_NM, SONG_NM;
-        if (item instanceof PostData) {
-            POST_TYPE = ((PostData)item).getPOST_TYPE();
-            POI = ((PostData)item).getPOI();
-            OTI = ((PostData)item).getOTI();
-            SSI = ((PostData)item).getSSI();
+        if (item instanceof PostModel) {
+            POST_TYPE = ((PostModel)item).getPOST_TYPE();
+            POI = ((PostModel)item).getPOI();
+            OTI = ((PostModel)item).getOTI();
+            SSI = ((PostModel)item).getSSI();
             TITLE_STATE = "Y";
-            COLOR_HEX = ((PostData)item).getCOLOR_HEX();
-            RADIO_PATH = ((PostData)item).getRADIO_PATH();
-            ALBUM_PATH = ((PostData)item).getTITLE_ALBUM_PATH();
-            ARTI_NM = ((PostData)item).getTITLE_ARTI_NM();
-            SONG_NM = ((PostData)item).getTITLE_SONG_NM();
+            COLOR_HEX = ((PostModel)item).getCOLOR_HEX();
+            RADIO_PATH = ((PostModel)item).getRADIO_PATH();
+            ALBUM_PATH = ((PostModel)item).getTITLE_ALBUM_PATH();
+            ARTI_NM = ((PostModel)item).getTITLE_ARTI_NM();
+            SONG_NM = ((PostModel)item).getTITLE_SONG_NM();
             POI_SSI = POI + SSI;
         } else if (item instanceof OstDataItem) {
             POST_TYPE = ((OstDataItem) item).getPOST_TYPE();
@@ -769,17 +769,17 @@ public class PostDatabases {
     public int updateOstPlayHistory(Object item) {
         int updateCount = 0;
         String POST_TYPE, POI, OTI, SSI, TITLE_STATE, COLOR_HEX, RADIO_PATH, ALBUM_PATH, ARTI_NM, SONG_NM;
-        if (item instanceof PostData) {
-            POST_TYPE = ((PostData)item).getPOST_TYPE();
-            POI = ((PostData)item).getPOI();
-            OTI = ((PostData)item).getOTI();
-            SSI = ((PostData)item).getSSI();
+        if (item instanceof PostModel) {
+            POST_TYPE = ((PostModel)item).getPOST_TYPE();
+            POI = ((PostModel)item).getPOI();
+            OTI = ((PostModel)item).getOTI();
+            SSI = ((PostModel)item).getSSI();
             TITLE_STATE = "Y";
-            COLOR_HEX = ((PostData)item).getCOLOR_HEX();
-            RADIO_PATH = ((PostData)item).getRADIO_PATH();
-            ALBUM_PATH = ((PostData)item).getTITLE_ALBUM_PATH();
-            ARTI_NM = ((PostData)item).getTITLE_ARTI_NM();
-            SONG_NM = ((PostData)item).getTITLE_SONG_NM();
+            COLOR_HEX = ((PostModel)item).getCOLOR_HEX();
+            RADIO_PATH = ((PostModel)item).getRADIO_PATH();
+            ALBUM_PATH = ((PostModel)item).getTITLE_ALBUM_PATH();
+            ARTI_NM = ((PostModel)item).getTITLE_ARTI_NM();
+            SONG_NM = ((PostModel)item).getTITLE_SONG_NM();
         } else if (item instanceof OstDataItem) {
             POST_TYPE = ((OstDataItem) item).getPOST_TYPE();
             POI = ((OstDataItem) item).getPOI();

@@ -112,7 +112,7 @@ object Constants {
     const val POST_ACCESS_KEY = "90585bea"
 
     // HEADER
-    const val HEADER_CONTENT_TYPE_FORM = "application/x-www-form-urlencoded"
+    const val HEADER_CONTENT_TYPE_FORM = "application/x-www-form-urlencoded; charset=UTF-8"
     const val HEADER_CONTENT_TYPE_MULTIPART = "multipart/form-data"
     const val HEADER_DEVICE_TYPE = "AH01"
 

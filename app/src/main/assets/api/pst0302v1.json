@@ -1,0 +1,9 @@
+{
+  "MESSAGE": "요청이 정상적으로 처리되었습니다.",
+  "CODE": "0000",
+  "RESPONSE": {
+    "ROW_CNT": 0,
+    "DATA": [],
+    "LIST_CNT": 10
+  }
+}

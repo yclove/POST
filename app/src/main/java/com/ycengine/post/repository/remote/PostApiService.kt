@@ -37,5 +37,5 @@ interface PostApiService {
     // POST 리스트 요청
     @Headers(ApiCache.NO_CACHE)
     @POST("pst0302v1.post")
-    fun getPostData() : Call<BaseModel<PostData>>
+    fun getPostData(@Body body: RequestBody) : Call<BaseModel<PostModel>>
 }

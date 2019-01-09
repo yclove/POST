@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleOwner
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
+import com.google.gson.Gson
 import com.ycengine.post.PostApplication
 import com.ycengine.post.common.Constants
 import com.ycengine.post.common.PostException
@@ -29,6 +30,7 @@ class PostViewModel(lifecycleOwner: LifecycleOwner) : BaseViewModel() {
      */
     val userId: MutableLiveData<String> = MutableLiveData()
     val userData: MutableLiveData<PostUserModel> = MutableLiveData()
+    private val postData: MutableLiveData<PostModel> = MutableLiveData()
 
     private val postColorData: LiveData<List<ColorModel>> = databaseRepository.getPostColor()
     private val hashPopKeywordData: LiveData<List<HashPopKeywordModel>> = databaseRepository.getHashPopKeyword()
@@ -57,9 +59,16 @@ class PostViewModel(lifecycleOwner: LifecycleOwner) : BaseViewModel() {
                 if (!isPushExist) {
                     val jsonObject = JSONObject()
                     jsonObject.put("PUSH_ID", SPUtil.getSharedPreference(PostApplication.context, Constants.SP_PUSH_ID))
-                    val body = RequestBody.create(MediaType.parse("${Constants.HEADER_CONTENT_TYPE_FORM}; charset=${Constants.SERVICE_CHAR_SET}"), "REQ_DATA=$jsonObject")
+                    val body = RequestBody.create(MediaType.parse(Constants.HEADER_CONTENT_TYPE_FORM), "REQ_DATA=$jsonObject")
                     updatePostUserData(body)
                 }
+
+                val postModelReq = PostModelReq()
+                postModelReq.LOCA_LAT = SPUtil.getSharedPreference(PostApplication.context, Constants.SP_USER_LAT)
+                postModelReq.LOCA_LNG = SPUtil.getSharedPreference(PostApplication.context, Constants.SP_USER_LNG)
+                val content = "REQ_DATA=${Gson().toJson(postModelReq)}"
+                val body = RequestBody.create(MediaType.parse(Constants.HEADER_CONTENT_TYPE_FORM), content)
+                getPostData(body)
             }
         })
     }
@@ -91,6 +100,25 @@ class PostViewModel(lifecycleOwner: LifecycleOwner) : BaseViewModel() {
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
+            }, {
+                if (it is PostException) {
+                    postException.value = it
+                }
+                it.printStackTrace()
+            }).apply {
+                compositeDisposable.add(this)
+            }
+    }
+
+    private fun getPostData(body: RequestBody) {
+        Flowable.just(Any())
+            .subscribeOn(Schedulers.io())
+            .map {
+                remoteRepository.getPostData(body)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                postData.value = it
             }, {
                 if (it is PostException) {
                     postException.value = it

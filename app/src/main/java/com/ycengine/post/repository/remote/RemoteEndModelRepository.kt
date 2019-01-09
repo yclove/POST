@@ -32,8 +32,8 @@ class RemoteEndModelRepository {
         response.error()?.let { throw it }
     }
 
-    fun getPost(): PostData? {
-        val response = service.getPostData().execute()
+    fun getPostData(body: RequestBody): PostModel? {
+        val response = service.getPostData(body).execute()
         response.error()?.let { throw it }
         return response.body()!!.RESPONSE
     }
