@@ -5,22 +5,17 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import com.ycengine.post.PostApplication
 import com.ycengine.post.common.Constants
+import com.ycengine.post.common.PostException
 import com.ycengine.post.data.model.*
-import com.ycengine.post.repository.database.DatabaseRepository
 import com.ycengine.post.repository.remote.BaseViewModel
-import com.ycengine.post.repository.remote.RemoteEndModelRepository
 import com.ycengine.post.util.SPUtil
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.io.IOException
 
 class PostViewModel(lifecycleOwner: LifecycleOwner) : BaseViewModel() {
-
-    private val remoteRepository = RemoteEndModelRepository()
-    private val databaseRepository = DatabaseRepository()
 
     /**
      * YCNOTE : Transformations
@@ -59,20 +54,21 @@ class PostViewModel(lifecycleOwner: LifecycleOwner) : BaseViewModel() {
     }
 
     fun getPostUserData() {
-        val disposable = Flowable.just(Any())
+        Flowable.just(Any())
             .subscribeOn(Schedulers.io())
             .map {
                 remoteRepository.getPostUserData()
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({
+            .subscribe({
                 userData.value = it
             }, {
-                if (it is IOException) {
-                    it.printStackTrace()
+                if (it is PostException) {
+                    postException.value = it
                 }
-                exceptionMessage.value = it.message
-            })
-        compositeDisposable.add(disposable)
+                it.printStackTrace()
+            }).apply {
+                compositeDisposable.add(this)
+            }
     }
 }

@@ -4,18 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestManager
 import com.ycengine.post.R
 import com.ycengine.post.common.Constants
-import com.ycengine.post.common.POSTException
+import com.ycengine.post.common.PostException
 import com.ycengine.post.widget.PostDialog
 
 abstract class BaseActivity : AppCompatActivity() {
 
 //    private var imageRequestManager: RequestManager? = null
     private var isFinish = false
-    private var mPOSTException: POSTException? = null
+    private var mPostException: PostException? = null
     private var mPostDialog: PostDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,10 +41,10 @@ abstract class BaseActivity : AppCompatActivity() {
 
         when (requestCode) {
             Constants.DIALOG_EXCEPTION_POST -> {
-                if (mPOSTException?.code.equals(Constants.NOT_FOUND_USER, ignoreCase = true)) {
-                    mPostDialog = PostDialog(this, Constants.DIALOG_TYPE_NOT_FOUND_USER, onGlobalClickListener, mPOSTException?.message)
+                if (mPostException?.code.equals(Constants.NOT_FOUND_USER, ignoreCase = true)) {
+                    mPostDialog = PostDialog(this, Constants.DIALOG_TYPE_NOT_FOUND_USER, onGlobalClickListener, mPostException?.message)
                 } else {
-                    mPostDialog = PostDialog(this, Constants.DIALOG_TYPE_INFO, onGlobalClickListener, mPOSTException?.message)
+                    mPostDialog = PostDialog(this, Constants.DIALOG_TYPE_INFO, onGlobalClickListener, mPostException?.message)
                 }
             }
             Constants.DIALOG_EXCEPTION_UPDATE_NEED -> {

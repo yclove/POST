@@ -1,51 +1,38 @@
 package com.ycengine.post.main
 
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import com.ycengine.post.common.PostException
 import com.ycengine.post.data.model.*
-import com.ycengine.post.repository.database.DatabaseRepository
-import com.ycengine.post.repository.remote.RemoteEndModelRepository
+import com.ycengine.post.repository.remote.BaseViewModel
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import java.io.IOException
 
-class SplashViewModel : ViewModel() {
-
-    private val remoteRepository = RemoteEndModelRepository()
-    private val databaseRepository = DatabaseRepository()
+class SplashViewModel : BaseViewModel() {
 
     val appVersionModel: MutableLiveData<AppVersionModel> = MutableLiveData()
-    val exceptionMessage: MutableLiveData<String> = MutableLiveData()
-
-    private val compositeDisposable = CompositeDisposable()
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
-    }
 
     init {
     }
 
     fun getAppVersionData() {
-        val disposable = Flowable.just(Any())
+        Flowable.just(Any())
             .subscribeOn(Schedulers.io())
             .map {
                 remoteRepository.getAppVersion()
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({
+            .subscribe({
                 appVersionModel.value = it
             }, {
-                if (it is IOException) {
-                    it.printStackTrace()
+                if (it is PostException) {
+                    postException.value = it
                 }
-                exceptionMessage.value = it.message
-            })
-        compositeDisposable.add(disposable)
+                it.printStackTrace()
+            }).apply {
+                compositeDisposable.add(this)
+            }
     }
 
     fun clearPostData() {

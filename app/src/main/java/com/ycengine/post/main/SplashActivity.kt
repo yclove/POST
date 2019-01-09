@@ -21,12 +21,10 @@ import com.ycengine.post.util.DeviceUtil
 import com.ycengine.post.util.SPUtil
 import com.ycengine.post.util.handler.IOnHandlerMessage
 import com.ycengine.post.util.handler.WeakRefHandler
-import com.ycengine.post.widget.PostDialog
 import com.ycengine.post.widget.TextureVideoView
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.*
 
 class SplashActivity : BaseActivity(), IOnHandlerMessage, View.OnClickListener {
@@ -129,18 +127,6 @@ class SplashActivity : BaseActivity(), IOnHandlerMessage, View.OnClickListener {
                         , android.Manifest.permission.CALL_PHONE // 전화
                     )
                     .check()
-            }
-        })
-
-        viewModel.exceptionMessage.observe(this, Observer {
-            it?.let { message ->
-                PostDialog(
-                    this@SplashActivity,
-                    Constants.DIALOG_TYPE_UPDATE_NEED,
-                    this@SplashActivity,
-                    getString(R.string.dialog_confirm_delete)
-                ).show()
-                Timber.e("Error : $message")
             }
         })
     }

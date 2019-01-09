@@ -1,45 +1,34 @@
 package com.ycengine.post.regist
 
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import com.ycengine.post.common.PostException
 import com.ycengine.post.data.model.RegistUserModel
-import com.ycengine.post.repository.remote.RemoteEndModelRepository
+import com.ycengine.post.repository.remote.BaseViewModel
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import okhttp3.RequestBody
-import java.io.IOException
 
-class RegistUserViewModel : ViewModel() {
-
-    private val remoteRepository = RemoteEndModelRepository()
+class RegistUserViewModel : BaseViewModel() {
 
     val registUserModel: MutableLiveData<RegistUserModel> = MutableLiveData()
-    val exceptionMessage: MutableLiveData<String> = MutableLiveData()
-
-    private val compositeDisposable = CompositeDisposable()
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
-    }
 
     fun registUser(body: RequestBody) {
-        val disposable = Flowable.just(body)
+        Flowable.just(body)
             .subscribeOn(Schedulers.io())
             .map {
                 remoteRepository.registUser(body)
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({
+            .subscribe({
                 registUserModel.value = it
             }, {
-                if (it is IOException) {
-                    it.printStackTrace()
+                if (it is PostException) {
+                    postException.value = it
                 }
-                exceptionMessage.value = it.message
-            })
-        compositeDisposable.add(disposable)
+                it.printStackTrace()
+            }).apply {
+                compositeDisposable.add(this)
+            }
     }
 }
