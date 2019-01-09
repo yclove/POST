@@ -28,7 +28,7 @@ class PostViewModel(lifecycleOwner: LifecycleOwner) : BaseViewModel() {
      * switchMap - trigger LiveData 가 변경에 따라 이벤트를 발생 시키면 function 을 적용하여 결과를 새로만든 새로운 LiveData 에 set 한다. 또한 이때 새로운 LiveData 에 등록된 observer 들에게 재전송 된다.
      */
     val userId: MutableLiveData<String> = MutableLiveData()
-    private val userData: MutableLiveData<PostUserModel> = MutableLiveData()
+    val userData: MutableLiveData<PostUserModel> = MutableLiveData()
 
     private val postColorData: LiveData<List<ColorModel>> = databaseRepository.getPostColor()
     private val hashPopKeywordData: LiveData<List<HashPopKeywordModel>> = databaseRepository.getHashPopKeyword()

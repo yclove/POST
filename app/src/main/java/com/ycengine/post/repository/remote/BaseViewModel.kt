@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModel
 import com.ycengine.post.common.PostException
 import com.ycengine.post.repository.database.DatabaseRepository
 import io.reactivex.disposables.CompositeDisposable
-import timber.log.Timber
 
 open class BaseViewModel : ViewModel() {
 
@@ -20,7 +19,6 @@ open class BaseViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        Timber.e("Clear compositeDisposable size = ${compositeDisposable.size()}")
         compositeDisposable.clear()
     }
 }

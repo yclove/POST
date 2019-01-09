@@ -225,9 +225,7 @@ class RegistUserFragment : BaseFragment(), IOnHandlerMessage {
                 binding.tvUserBirthYearBtn.alpha = 1.0f
                 updateNextUI()
             }
-            else -> {
-                Timber.e("The request is else case. request : ${it.resources.getResourceEntryName(it.id)}")
-            }
+            else -> Timber.e("The request is else case. request : ${it.resources.getResourceEntryName(it.id)}")
         }
     }
 

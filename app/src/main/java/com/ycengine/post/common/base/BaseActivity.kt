@@ -1,6 +1,5 @@
 package com.ycengine.post.common.base
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -62,8 +61,6 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private val onGlobalClickListener = View.OnClickListener {
-        val intent: Intent
-
         when (it.id) {
             // 안내 타입의 확인 onClick
             R.id.btnInfoConfirm -> {
