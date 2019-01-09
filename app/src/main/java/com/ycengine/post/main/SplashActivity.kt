@@ -89,7 +89,7 @@ class SplashActivity : BaseActivity(), IOnHandlerMessage, View.OnClickListener {
                 }
 
                 /**
-                 * YCNOTE : kotlin coroutines launch & async
+                 * YCNOTE : GlobalScope launch & async - kotlin coroutines
                  *
                  * 개념적으로 async 는 launch 와 같습니다.
                  * launch 는 Job 을 반환하고 아무런 결과 값도 전달하지 않는 반면 async 는 Deferred 를 반환합니다.

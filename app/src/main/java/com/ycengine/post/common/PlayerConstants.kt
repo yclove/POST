@@ -1,7 +1,7 @@
 package com.ycengine.post.common
 
 import android.os.Handler
-import com.ycengine.post.data.dto.OstDataItem
+import com.ycengine.post.data.model.OstDataItem
 
 object PlayerConstants {
 

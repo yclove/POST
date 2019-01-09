@@ -2,7 +2,7 @@ package com.ycengine.post.main
 
 import android.support.v4.view.PagerAdapter
 import android.view.View
-import com.ycengine.post.data.dto.PostData
+import com.ycengine.post.data.model.PostData
 
 /**
  * YCNOTE : FragmentPagerAdapter 와 FragmentStatePagerAdapter

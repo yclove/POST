@@ -1,9 +1,6 @@
 package com.ycengine.post.repository.remote
 
-import com.ycengine.post.data.dto.AppVersionModel
-import com.ycengine.post.data.dto.BaseResponse
-import com.ycengine.post.data.dto.PostData
-import com.ycengine.post.data.dto.RegistUserModel
+import com.ycengine.post.data.model.*
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -20,15 +17,20 @@ interface PostApiService {
     // 앱 버전 정보 요청
     @Headers(ApiCache.NO_CACHE)
     @POST("app0101v1.post")
-    fun getAppVersionData() : Call<BaseResponse<AppVersionModel>>
+    fun getAppVersionData() : Call<BaseModel<AppVersionModel>>
 
     // 사용자 정보 등록 요청
     @Headers(ApiCache.NO_CACHE)
     @POST("usr0201v1.post")
-    fun registUser(@Body REQ_DATA: RequestBody) : Call<BaseResponse<RegistUserModel>>
+    fun registUser(@Body REQ_DATA: RequestBody) : Call<BaseModel<RegistUserModel>>
+
+    // 사용자 정보 조회 요청
+    @Headers(ApiCache.NO_CACHE)
+    @POST("usr0202v1.post")
+    fun getPostUserData() : Call<BaseModel<PostUserModel>>
 
     // POST 리스트 요청
     @Headers(ApiCache.NO_CACHE)
     @POST("pst0302v1.post")
-    fun getPostData() : Call<BaseResponse<PostData>>
+    fun getPostData() : Call<BaseModel<PostData>>
 }

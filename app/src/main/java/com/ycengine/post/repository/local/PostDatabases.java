@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.ycengine.post.common.Constants;
 import com.ycengine.post.common.PlayerConstants;
-import com.ycengine.post.data.dto.*;
+import com.ycengine.post.data.model.*;
 import com.ycengine.post.util.CommonUtil;
 import com.ycengine.post.util.SPUtil;
 import timber.log.Timber;

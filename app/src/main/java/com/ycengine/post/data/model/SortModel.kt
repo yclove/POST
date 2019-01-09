@@ -1,4 +1,4 @@
-package com.ycengine.post.data.dto
+package com.ycengine.post.data.model
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Index

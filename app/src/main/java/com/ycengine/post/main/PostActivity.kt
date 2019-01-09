@@ -1,7 +1,6 @@
 package com.ycengine.post.main
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import android.arch.lifecycle.*
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.View
@@ -20,7 +19,11 @@ class PostActivity : BaseActivity(), View.OnClickListener {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_post)
 
         viewModel = ViewModelProviders
-            .of(this)
+            .of(this, object: ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return modelClass.getConstructor(LifecycleOwner::class.java).newInstance(this@PostActivity)
+                }
+            })
             .get(PostViewModel::class.java)
 
         viewModel.userId.observe(this, Observer {
@@ -44,6 +47,7 @@ class PostActivity : BaseActivity(), View.OnClickListener {
                             transaction.commit()
                         }
                     }
+                    viewModel.getPostUserData()
                 }
             }
         })

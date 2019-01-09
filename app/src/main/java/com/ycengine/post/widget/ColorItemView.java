@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import com.ycengine.post.R;
-import com.ycengine.post.data.dto.ColorModel;
+import com.ycengine.post.data.model.ColorModel;
 
 public class ColorItemView extends RelativeLayout {
     private Context mContext;

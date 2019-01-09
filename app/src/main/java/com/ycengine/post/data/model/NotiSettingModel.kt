@@ -1,4 +1,4 @@
-package com.ycengine.post.data.dto
+package com.ycengine.post.data.model
 
 data class NotiSettingModel(
     val MANNER: String = "",

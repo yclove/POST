@@ -1,8 +1,10 @@
 package com.ycengine.post.repository.remote.interceptor
 
 import com.ycengine.post.BuildConfig
+import com.ycengine.post.PostApplication
 import com.ycengine.post.common.Constants
 import com.ycengine.post.util.KeyUtil
+import com.ycengine.post.util.SPUtil
 import okhttp3.Interceptor
 import okhttp3.Response
 import okhttp3.ResponseBody
@@ -24,7 +26,7 @@ class AddHeaderInterceptor : Interceptor {
         // TODO : YCLOVE
         builder.addHeader("post-app-version", BuildConfig.VERSION_CODE.toString())
 //        builder.addHeader("post-app-version", "4")
-        builder.addHeader("post-app-user-id", "yclove")//SPUtil.getSharedPreference(mContext, Constants.SP_USER_ID)
+        builder.addHeader("post-app-user-id", SPUtil.getSharedPreference(PostApplication.context, Constants.SP_USER_ID))
         builder.addHeader("post-access-token", tokenKey)
         builder.addHeader("post-access-key", Constants.POST_ACCESS_KEY)
         builder.addHeader("post-timestamp", timeStamp.toString())

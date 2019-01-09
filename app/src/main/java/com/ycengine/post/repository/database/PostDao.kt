@@ -5,10 +5,10 @@ import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
-import com.ycengine.post.data.dto.ColorModel
-import com.ycengine.post.data.dto.HashPopKeywordModel
-import com.ycengine.post.data.dto.MusPopKeywordModel
-import com.ycengine.post.data.dto.PostPopKeywordModel
+import com.ycengine.post.data.model.ColorModel
+import com.ycengine.post.data.model.HashPopKeywordModel
+import com.ycengine.post.data.model.MusPopKeywordModel
+import com.ycengine.post.data.model.PostPopKeywordModel
 
 @Dao
 interface PostDao {

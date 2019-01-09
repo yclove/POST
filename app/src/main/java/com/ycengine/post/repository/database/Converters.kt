@@ -1,7 +1,7 @@
 package com.ycengine.post.repository.database
 
 import android.arch.persistence.room.TypeConverter
-import com.ycengine.post.data.dto.DownloadStatus
+import com.ycengine.post.data.model.DownloadStatus
 import timber.log.Timber
 import java.util.*
 

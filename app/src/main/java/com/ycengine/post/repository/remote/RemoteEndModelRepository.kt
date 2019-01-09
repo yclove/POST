@@ -1,9 +1,6 @@
 package com.ycengine.post.repository.remote
 
-import com.ycengine.post.data.dto.AppVersionModel
-import com.ycengine.post.data.dto.BaseResponse
-import com.ycengine.post.data.dto.PostData
-import com.ycengine.post.data.dto.RegistUserModel
+import com.ycengine.post.data.model.*
 import okhttp3.RequestBody
 import retrofit2.Response
 import java.io.IOException
@@ -24,13 +21,19 @@ class RemoteEndModelRepository {
         return response.body()!!.RESPONSE
     }
 
+    fun getPostUserData(): PostUserModel? {
+        val response = service.getPostUserData().execute()
+        response.error()?.let { throw it }
+        return response.body()!!.RESPONSE
+    }
+
     fun getPost(): PostData? {
         val response = service.getPostData().execute()
         response.error()?.let { throw it }
         return response.body()!!.RESPONSE
     }
 
-    private inline fun <T> Response<BaseResponse<T>>.error(defaultMessage: String = "response fail"): IOException? = when {
+    private inline fun <T> Response<BaseModel<T>>.error(defaultMessage: String = "response fail"): IOException? = when {
         this.errorBody() != null -> IOException(this.errorBody()?.string())
         !this.isSuccessful || this.body() == null -> IOException(defaultMessage)
         !ValidResponse.validResponse(this.body()!!.CODE) -> IOException(this.body()!!.MESSAGE)

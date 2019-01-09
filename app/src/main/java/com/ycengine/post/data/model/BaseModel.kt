@@ -1,6 +1,6 @@
-package com.ycengine.post.data.dto
+package com.ycengine.post.data.model
 
-data class BaseResponse<T>(
+data class BaseModel<T>(
     val MESSAGE: String = "",
     val CODE: String = "",
     val RESPONSE: T?

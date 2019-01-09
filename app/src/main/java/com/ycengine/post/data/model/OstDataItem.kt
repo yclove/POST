@@ -1,4 +1,4 @@
-package com.ycengine.post.data.dto
+package com.ycengine.post.data.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

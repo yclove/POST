@@ -1,9 +1,9 @@
 package com.ycengine.post.repository.database
 
-import com.ycengine.post.data.dto.ColorModel
-import com.ycengine.post.data.dto.HashPopKeywordModel
-import com.ycengine.post.data.dto.MusPopKeywordModel
-import com.ycengine.post.data.dto.PostPopKeywordModel
+import com.ycengine.post.data.model.ColorModel
+import com.ycengine.post.data.model.HashPopKeywordModel
+import com.ycengine.post.data.model.MusPopKeywordModel
+import com.ycengine.post.data.model.PostPopKeywordModel
 
 class DatabaseRepository {
     private val postDao = PostDatabase.getInstance().getPostDao()

@@ -2,7 +2,7 @@ package com.ycengine.post.main
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.ycengine.post.data.dto.*
+import com.ycengine.post.data.model.*
 import com.ycengine.post.repository.database.DatabaseRepository
 import com.ycengine.post.repository.remote.RemoteEndModelRepository
 import io.reactivex.Flowable

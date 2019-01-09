@@ -7,10 +7,10 @@ import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
 import android.content.Context
 import com.ycengine.post.PostApplication
-import com.ycengine.post.data.dto.ColorModel
-import com.ycengine.post.data.dto.HashPopKeywordModel
-import com.ycengine.post.data.dto.MusPopKeywordModel
-import com.ycengine.post.data.dto.PostPopKeywordModel
+import com.ycengine.post.data.model.ColorModel
+import com.ycengine.post.data.model.HashPopKeywordModel
+import com.ycengine.post.data.model.MusPopKeywordModel
+import com.ycengine.post.data.model.PostPopKeywordModel
 import timber.log.Timber
 
 @Database(entities = [ColorModel::class, HashPopKeywordModel::class, PostPopKeywordModel::class, MusPopKeywordModel::class], version = 1, exportSchema = true)

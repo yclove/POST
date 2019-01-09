@@ -2,7 +2,7 @@ package com.ycengine.post.regist
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.ycengine.post.data.dto.RegistUserModel
+import com.ycengine.post.data.model.RegistUserModel
 import com.ycengine.post.repository.remote.RemoteEndModelRepository
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
