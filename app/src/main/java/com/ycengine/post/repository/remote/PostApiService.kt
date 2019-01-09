@@ -22,12 +22,17 @@ interface PostApiService {
     // 사용자 정보 등록 요청
     @Headers(ApiCache.NO_CACHE)
     @POST("usr0201v1.post")
-    fun registUser(@Body REQ_DATA: RequestBody) : Call<BaseModel<RegistUserModel>>
+    fun registUser(@Body body: RequestBody) : Call<BaseModel<RegistUserModel>>
 
     // 사용자 정보 조회 요청
     @Headers(ApiCache.NO_CACHE)
     @POST("usr0202v1.post")
     fun getPostUserData() : Call<BaseModel<PostUserModel>>
+
+    // 사용자 디바이스 정보 수정 요청
+    @Headers(ApiCache.NO_CACHE)
+    @POST("usr0222v1.post")
+    fun updatePostUserData(@Body body: RequestBody) : Call<BaseModel<Any?>>
 
     // POST 리스트 요청
     @Headers(ApiCache.NO_CACHE)

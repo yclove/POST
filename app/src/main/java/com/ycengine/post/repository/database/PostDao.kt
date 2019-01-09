@@ -1,6 +1,6 @@
 package com.ycengine.post.repository.database
 
-//import android.arch.paging.DataSource
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
@@ -14,9 +14,9 @@ import com.ycengine.post.data.model.PostPopKeywordModel
 interface PostDao {
 
     /**
-     * YCQUESTION : ROOM
+     * YCNOTE : ROOM
      *
-     * Return 값이 LiveData 이라면 비동기 List 라면 동기처리 ?
+     * Return 값이 LiveData 이라면 비동기 List 라면 동기처리
      */
 
     // tblColor
@@ -24,7 +24,7 @@ interface PostDao {
     fun insertColors(colors: List<ColorModel>)
 
     @Query("SELECT * FROM tblColor ORDER BY sortOrder ASC")
-    fun getPostColor() : List<ColorModel>
+    fun getPostColor() : LiveData<List<ColorModel>>
 
     @Query("DELETE FROM tblColor")
     fun deletePostColor()
@@ -34,7 +34,7 @@ interface PostDao {
     fun insertHashPopKeyword(colors: List<HashPopKeywordModel>)
 
     @Query("SELECT * FROM tblHashPopKeyword")
-    fun getHashPopKeyword() : List<HashPopKeywordModel>
+    fun getHashPopKeyword() : LiveData<List<HashPopKeywordModel>>
 
     @Query("DELETE FROM tblHashPopKeyword")
     fun deleteHashPopKeyword()
@@ -44,7 +44,7 @@ interface PostDao {
     fun insertPostPopKeyword(colors: List<PostPopKeywordModel>)
 
     @Query("SELECT * FROM tblPostPopKeyword")
-    fun getPostPopKeyword() : List<PostPopKeywordModel>
+    fun getPostPopKeyword() : LiveData<List<PostPopKeywordModel>>
 
     @Query("DELETE FROM tblPostPopKeyword")
     fun deletePostPopKeyword()
@@ -54,7 +54,7 @@ interface PostDao {
     fun insertMusPopKeyword(colors: List<MusPopKeywordModel>)
 
     @Query("SELECT * FROM tblMusPopKeyword")
-    fun getMusPopKeyword() : List<MusPopKeywordModel>
+    fun getMusPopKeyword() : LiveData<List<MusPopKeywordModel>>
 
     @Query("DELETE FROM tblMusPopKeyword")
     fun deleteMusPopKeyword()

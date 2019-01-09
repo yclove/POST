@@ -1,5 +1,6 @@
 package com.ycengine.post.repository.database
 
+import android.arch.lifecycle.LiveData
 import com.ycengine.post.data.model.ColorModel
 import com.ycengine.post.data.model.HashPopKeywordModel
 import com.ycengine.post.data.model.MusPopKeywordModel
@@ -22,7 +23,7 @@ class DatabaseRepository {
         postDao.insertColors(colors)
     }
 
-    fun getPostColor() : List<ColorModel> {
+    fun getPostColor() : LiveData<List<ColorModel>> {
         return postDao.getPostColor()
     }
 
@@ -31,7 +32,7 @@ class DatabaseRepository {
         postDao.insertHashPopKeyword(keywords)
     }
 
-    fun getHashPopKeyword() : List<HashPopKeywordModel> {
+    fun getHashPopKeyword() : LiveData<List<HashPopKeywordModel>> {
         return postDao.getHashPopKeyword()
     }
 
@@ -40,7 +41,7 @@ class DatabaseRepository {
         postDao.insertPostPopKeyword(keywords)
     }
 
-    fun getPostPopKeyword() : List<PostPopKeywordModel> {
+    fun getPostPopKeyword() : LiveData<List<PostPopKeywordModel>> {
         return postDao.getPostPopKeyword()
     }
 
@@ -49,7 +50,7 @@ class DatabaseRepository {
         postDao.insertMusPopKeyword(keywords)
     }
 
-    fun getMusPopKeyword() : List<MusPopKeywordModel> {
+    fun getMusPopKeyword() : LiveData<List<MusPopKeywordModel>> {
         return postDao.getMusPopKeyword()
     }
 }

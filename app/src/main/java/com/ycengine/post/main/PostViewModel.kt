@@ -1,6 +1,7 @@
 package com.ycengine.post.main
 
 import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import com.ycengine.post.PostApplication
@@ -12,8 +13,9 @@ import com.ycengine.post.util.SPUtil
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.json.JSONObject
 
 class PostViewModel(lifecycleOwner: LifecycleOwner) : BaseViewModel() {
 
@@ -28,19 +30,12 @@ class PostViewModel(lifecycleOwner: LifecycleOwner) : BaseViewModel() {
     val userId: MutableLiveData<String> = MutableLiveData()
     private val userData: MutableLiveData<PostUserModel> = MutableLiveData()
 
-    private var postColorData: List<ColorModel> = listOf()
-    private var hashPopKeywordData: List<HashPopKeywordModel> = listOf()
-    private var postPopKeywordData: List<PostPopKeywordModel> = listOf()
-    private var musPopKeywordData: List<MusPopKeywordModel> = listOf()
+    private val postColorData: LiveData<List<ColorModel>> = databaseRepository.getPostColor()
+    private val hashPopKeywordData: LiveData<List<HashPopKeywordModel>> = databaseRepository.getHashPopKeyword()
+    private val postPopKeywordData: LiveData<List<PostPopKeywordModel>> = databaseRepository.getPostPopKeyword()
+    private val musPopKeywordData: LiveData<List<MusPopKeywordModel>> = databaseRepository.getMusPopKeyword()
 
     init {
-        GlobalScope.launch {
-            postColorData = databaseRepository.getPostColor()
-            hashPopKeywordData = databaseRepository.getHashPopKeyword()
-            postPopKeywordData = databaseRepository.getPostPopKeyword()
-            musPopKeywordData = databaseRepository.getMusPopKeyword()
-        }
-
         userId.value = SPUtil.getSharedPreference(PostApplication.context, Constants.SP_USER_ID)
 
         userData.observe(lifecycleOwner, Observer {
@@ -49,6 +44,22 @@ class PostViewModel(lifecycleOwner: LifecycleOwner) : BaseViewModel() {
                 SPUtil.setSharedPreference(PostApplication.context, Constants.SP_USER_BIRTH_YEAR, userData.birthDate)
                 SPUtil.setSharedPreference(PostApplication.context, Constants.SP_ACCOUNT_ID, userData.accountId)
                 SPUtil.setSharedPreference(PostApplication.context, Constants.SP_ACCOUNT_AUTH_TYPE, userData.accountAuthType)
+
+                // 등록 된 PUSH ID 와 조회 된 PUSH ID 가 다를 경우 사용자 디바이스 정보 수정을 요청한다.
+                var isPushExist = false
+                for (item in userData.pushDataList) {
+                    if (SPUtil.getSharedPreference(PostApplication.context, Constants.SP_PUSH_ID).equals(item.pushId, ignoreCase = false)) {
+                        isPushExist = true
+                        break
+                    }
+                }
+
+                if (!isPushExist) {
+                    val jsonObject = JSONObject()
+                    jsonObject.put("PUSH_ID", SPUtil.getSharedPreference(PostApplication.context, Constants.SP_PUSH_ID))
+                    val body = RequestBody.create(MediaType.parse("${Constants.HEADER_CONTENT_TYPE_FORM}; charset=${Constants.SERVICE_CHAR_SET}"), "REQ_DATA=$jsonObject")
+                    updatePostUserData(body)
+                }
             }
         })
     }
@@ -62,6 +73,24 @@ class PostViewModel(lifecycleOwner: LifecycleOwner) : BaseViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 userData.value = it
+            }, {
+                if (it is PostException) {
+                    postException.value = it
+                }
+                it.printStackTrace()
+            }).apply {
+                compositeDisposable.add(this)
+            }
+    }
+
+    private fun updatePostUserData(body: RequestBody) {
+        Flowable.just(Any())
+            .subscribeOn(Schedulers.io())
+            .map {
+                remoteRepository.updatePostUserData(body)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
             }, {
                 if (it is PostException) {
                     postException.value = it

@@ -75,7 +75,7 @@ class PostActivity : BaseActivity(), View.OnClickListener {
                         }
                     }
                     else -> {
-                        postDialog = PostDialog(this, Constants.DIALOG_TYPE_INFO, this, getString(R.string.dialog_info_notify)).apply {
+                        postDialog = PostDialog(this, Constants.DIALOG_TYPE_INFO, this, e.message).apply {
                             show()
                         }
                     }
